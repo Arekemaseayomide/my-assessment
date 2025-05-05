@@ -12,7 +12,7 @@ export default function TodoList() {
   const [editText, setEditText] = useState('');
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     const savedTodos = localStorage.getItem('todos');
@@ -345,7 +345,22 @@ export default function TodoList() {
             ))
           )}
         </ul>
+      <div className="flex justify-between mt-4">
+        <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+            <ChevronLeft className='text-white cursor-pointer'/>
+        </button>
+        <span className="text-gray-300">{currentPage}</span>
+        <button 
+            onClick={() => setCurrentPage(prev => 
+            Math.min(prev + 1, Math.ceil(allTodos.length / itemsPerPage))
+            )} 
+            disabled={currentPage === Math.ceil(allTodos.length / itemsPerPage)}
+        >
+            <ChevronRight className='text-white cursor-pointer'/>
+        </button>
       </div>
+      </div>
+
       
       <div className="mt-6 text-center text-gray-500 text-xs">
         <p>My assesment</p>
